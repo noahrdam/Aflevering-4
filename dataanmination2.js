@@ -4,21 +4,21 @@ const padding = 20;
 const axisPadding = 70;
 
 const dataset = [
-    [4.5, 1000, "Greatest hits"],
-    [4.2, 800, "Wild Cherry"],
-    [4.6, 1200, "Meteora"],
-    [4.4, 950, "Top Gun - Motion Picture Soundtrack"],
-    [4.3, 980, "Hjertestarter - Bonus Edition"],
-    [4.2, 900, "USADSB"],
-    [4.5, 1100, "Joyride"],
-    [4.6, 1180, "Slippery When Wet"],
-    [4.4, 1020, "Crazy World"],
-    [4.8, 1350, "The Razors Edge"],
-    [4.2, 1200, "Electric Dreams"],
-    [4.5, 1500, "Epic Jams"],
-    [4.7, 2800, "Electric Symphony"],
-    [4.9, 2600, "Lost in Time"],
-    [4.6, 2200, "Summer Vibes"]
+    [1992, 1000, "Greatest hits"],
+    [1976, 800, "Wild Cherry"],
+    [2003, 1200, "Meteora"],
+    [1989, 950, "Top Gun - Motion Picture Soundtrack"],
+    [2013, 980, "Hjertestarter - Bonus Edition"],
+    [2004, 900, "USADSB"],
+    [1991, 1100, "Joyride"],
+    [2010, 1180, "Slippery When Wet"],
+    [1990, 1020, "Crazy World"],
+    [1990, 1350, "The Razors Edge"],
+    [2022, 1200, "Electric Dreams"],
+    [2021, 1500, "Epic Jams"],
+    [2022, 2800, "Electric Symphony"],
+    [2023, 2600, "Lost in Time"],
+    [2021, 2200, "Summer Vibes"]
 ]
 
 const svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
@@ -31,7 +31,7 @@ let yAxis = null;
 
 init(dataset, false);
 
-d3.selectAll("#sortByRating, #sortByName, #sortByFavorites").on(
+d3.selectAll("#sortByYear, #sortByFavorites").on(
   "click",
   function (e) {
     let id = e.target.id;
@@ -86,7 +86,7 @@ function createDefaultChart(dataset) {
       return h - padding - axisPadding - yScale(d[1]);
     })
     .attr("fill", function (d) {
-      return "rgb(0, 0, " + (256 - d[0]) + ")";
+      return "rgb(0, 0, " + (256 - d[0]) + ")"
     });
 }
 
@@ -130,7 +130,7 @@ function createAxisX(xScale, isFastest) {
           if (isFastest) {
             return dataset[d][2];
           } else {
-            return dataset[d][1];
+            return dataset[d][0];
           }
         }
       })
@@ -179,13 +179,13 @@ function animateData(data, isFastest) {
 
 
 function sortData(by) {
-  if (by === "sortByRating") {
+  if (by === "sortByYear") {
     dataset.sort(function (a, b) {
       return a[0] - b[0];
     });
-  } else if (by === "sortByName") {
+  } else if (by === "sortByFavorites") {
     dataset.sort(function (a, b) {
-      return new Date(a[2]) - new Date(b[2]);
+      return new Date(a[1]) - new Date(b[1]);
     });
   } else {
     dataset.sort(function (a, b) {
@@ -193,4 +193,6 @@ function sortData(by) {
     });
   }
 }
+
+
 

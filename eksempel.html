@@ -9,7 +9,7 @@
   <h1>Sorter Data</h1>
   <button id="sortByFavorites">Sort by Favorites</button>
   <button id="sortByRatings">Sort by Ratings</button>
-  <div id="chart"></div>
+  
 
   
   
@@ -22,8 +22,8 @@
         { rating: 4.5, favorites: 1000, name: "Greatest hits" },
         { rating: 4.2, favorites: 800, name: "Wild Cherry" },
         { rating: 4.6, favorites: 1200, name: "Meteora" },
-        { rating: 4.4, favorites: 950, name: "Top Gun - Motion Picture Soundtrack" },
-        { rating: 4.3, favorites: 980, name: "Hjertestarter - Bonus Edition" },
+        { rating: 4.4, favorites: 950, name: "Top Gun" },
+        { rating: 4.3, favorites: 980, name: "Hjertestarter" },
         { rating: 4.2, favorites: 900, name: "USADSB" },
         { rating: 4.5, favorites: 1100, name: "Joyride" },
         { rating: 4.6, favorites: 1180, name: "Slippery When Wet" },
@@ -36,10 +36,7 @@
         { rating: 4.6, favorites: 2200, name: "Summer Vibes" }
     ];
 
-    const svg = d3.select("#chart")
-      .append("svg")
-      .attr("width", w)
-      .attr("height", h);
+    const svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 
     let xScale = d3.scaleBand()
       .domain(dataset.map(d => d.name))
