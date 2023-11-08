@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Albums Bar Chart</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <h1>Sorter Data</h1>
+  <button id="sortByFavorites">Sort by Favorites</button>
+  <button id="sortByRatings">Sort by Ratings</button>
+  <div id="chart"></div>
+
+  
+  
+  <script>
+    const w = 1500;
+    const h = 800;
+    const padding = 40;
+
+    const dataset = [
+        { rating: 4.5, favorites: 1000, name: "Greatest hits" },
+        { rating: 4.2, favorites: 800, name: "Wild Cherry" },
+        { rating: 4.6, favorites: 1200, name: "Meteora" },
+        { rating: 4.4, favorites: 950, name: "Top Gun - Motion Picture Soundtrack" },
+        { rating: 4.3, favorites: 980, name: "Hjertestarter - Bonus Edition" },
+        { rating: 4.2, favorites: 900, name: "USADSB" },
+        { rating: 4.5, favorites: 1100, name: "Joyride" },
+        { rating: 4.6, favorites: 1180, name: "Slippery When Wet" },
+        { rating: 4.4, favorites: 1020, name: "Crazy World" },
+        { rating: 4.8, favorites: 1350, name: "The Razors Edge" },
+        { rating: 4.2, favorites: 1200, name: "Electric Dreams" },
+        { rating: 4.5, favorites: 1500, name: "Epic Jams" },
+        { rating: 4.7, favorites: 2800, name: "Electric Symphony" },
+        { rating: 4.9, favorites: 2600, name: "Lost in Time" },
+        { rating: 4.6, favorites: 2200, name: "Summer Vibes" }
+    ];
+
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h);
+
+    let xScale = d3.scaleBand()
+      .domain(dataset.map(d => d.name))
+      .range([padding, w - padding])
+      .padding(0.1);
+
+    let yScale = d3.scaleLinear()
+      .domain([0, d3.max(dataset, d => d.favorites)])
+      .range([h - padding, padding]);
+
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
+    svg.append("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0, ${h - padding})`)
+      .call(xAxis);
+
+    svg.append("g")
+      .attr("class", "y-axis")
+      .attr("transform", `translate(${padding}, 0)`)
+      .call(yAxis);
+
+    updateChart(dataset, "favorites");
+
+    d3.select("#sortByFavorites").on("click", () => {
+      updateChart(dataset, "favorites");
+    });
+
+    d3.select("#sortByRatings").on("click", () => {
+      updateChart(dataset, "rating");
+    });
+
+    function updateChart(data, sortKey) {
+      data.sort((a, b) => b[sortKey] - a[sortKey]);
+
+      xScale.domain(data.map(d => d.name));
+      yScale.domain([0, d3.max(data, d => d[sortKey])]);
+
+      const bars = svg.selectAll("rect").data(data, d => d.name);
+
+      bars.exit().remove();
+
+      bars.enter().append("rect")
+        .attr("x", d => xScale(d.name))
+        .attr("y", h - padding)
+        .attr("width", xScale.bandwidth())
+        .attr("height", 0)
+        .merge(bars)
+        .transition()
+        .duration(2000)
+        .attr("x", d => xScale(d.name))
+        .attr("y", d => yScale(d[sortKey]))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => h - padding - yScale(d[sortKey]));
+      
+      svg.select(".x-axis")
+        .transition()
+        .duration(1000)
+        .call(xAxis);
+      
+      svg.select(".y-axis")
+        .transition()
+        .duration(1000)
+        .call(yAxis);
+    }
+  </script>
+</body>
+</html>
