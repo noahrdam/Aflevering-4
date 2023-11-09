@@ -86,7 +86,7 @@ function createDefaultChart(dataset) {
       return h - padding - axisPadding - yScale(d[1]);
     })
     .attr("fill", function (d) {
-      return "rgb(0, 0, " + (256 - d[0]) + ")"
+      return "rgb(50, 150, " + (256 - d[1]) + ")"
     });
 }
 
@@ -159,7 +159,7 @@ function formatAxisX() {
     .call(xAxis.tickSize(1))
     .selectAll("text")
     .attr("transform", "translate(-10,5)rotate(-45)")
-    .style("text-anchor", "end");
+    .style("text-anchor", "end")
 }
 
 function animateData(data, isFastest) {
