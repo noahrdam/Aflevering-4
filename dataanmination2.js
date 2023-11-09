@@ -152,6 +152,14 @@ function addAxes() {
   formatAxisX();
 }
 
+svg.append("text")
+        .attr("text-anchor", "center")
+        .attr("y", 10)
+        .attr("x", -250)  
+        .style("font-size", "20px")   
+        .text("Favorites")
+        .attr("transform", "rotate(-90,50,20)");
+
 function formatAxisX() {
   svg
     .select("#xAxis")
@@ -193,9 +201,10 @@ function sortData(by) {
       return a[1] - b[1];
     });
   }
+
+
+
 }
-
-
 
 
 
