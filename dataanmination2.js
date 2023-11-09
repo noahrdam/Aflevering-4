@@ -7,8 +7,8 @@ const dataset = [
     [1992, 1000, "Greatest hits"],
     [1976, 800, "Wild Cherry"],
     [2003, 1200, "Meteora"],
-    [1989, 950, "Top Gun - Motion Picture Soundtrack"],
-    [2013, 980, "Hjertestarter - Bonus Edition"],
+    [1989, 950, "Top Gun"],
+    [2013, 980, "Hjertestarter"],
     [2004, 900, "USADSB"],
     [1991, 1100, "Joyride"],
     [2010, 1180, "Slippery When Wet"],
@@ -130,12 +130,13 @@ function createAxisX(xScale, isFastest) {
           if (isFastest) {
             return dataset[d][2];
           } else {
-            return dataset[d][0];
+            return dataset[d][2] + " - " + dataset[d][0];
           }
         }
       })
   );
 }
+
 
 function addAxes() {
   svg
@@ -155,7 +156,7 @@ function formatAxisX() {
   svg
     .select("#xAxis")
     .call(xAxis)
-    .call(xAxis.tickSize(0))
+    .call(xAxis.tickSize(1))
     .selectAll("text")
     .attr("transform", "translate(-10,5)rotate(-45)")
     .style("text-anchor", "end");
@@ -193,6 +194,8 @@ function sortData(by) {
     });
   }
 }
+
+
 
 
 
